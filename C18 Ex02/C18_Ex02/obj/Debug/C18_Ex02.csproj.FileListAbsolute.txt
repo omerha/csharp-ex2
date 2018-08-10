@@ -1,0 +1,8 @@
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\bin\Debug\C18_Ex02.exe
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\bin\Debug\C18_Ex02.pdb
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\bin\Debug\Ex02.ConsoleUtils.dll
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\obj\Debug\C18_Ex02.csprojAssemblyReference.cache
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\obj\Debug\C18_Ex02.csproj.CoreCompileInputs.cache
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\obj\Debug\C18_Ex02.csproj.CopyComplete
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\obj\Debug\C18_Ex02.exe
+C:\School\csharp-ex2\C18 Ex02\C18_Ex02\obj\Debug\C18_Ex02.pdb
