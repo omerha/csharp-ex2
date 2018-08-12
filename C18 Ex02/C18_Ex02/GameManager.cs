@@ -11,7 +11,7 @@ namespace C18_Ex02
         int m_BoardCols = 0;
         int m_BoardRows = 0;
         int m_NumOfHumanPlayers = 0;
-
+        char[,] m_GameBoard = null;
         public static void Main()
         {
             GameManager omer = new GameManager();
@@ -24,7 +24,9 @@ namespace C18_Ex02
                 m_Players[i] = new Player();
             }
             GetBoardSizes();
+            m_GameBoard = new char[m_BoardRows, m_BoardCols];
             GetNumOfHumanPlayers();
+            consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
             consoleUtils.PrintScores(m_Players);
         }
         public int Cols

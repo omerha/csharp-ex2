@@ -6,7 +6,7 @@ namespace C18_Ex02
     class PrintConsoleUtils
     {
 
-        public void PrintBoard(int i_Cols, int i_Rows)
+        public void PrintBoard(int i_Cols, int i_Rows,char[,] i_GameBoard)
         {
             StringBuilder board = new StringBuilder();
             Ex02.ConsoleUtils.Screen.Clear();
@@ -16,16 +16,27 @@ namespace C18_Ex02
                 {
                     for (int k = 1; k <= i_Cols; k++)
                     {
-                        board.Append("  " + k + "  ");
+                        board.Append("   " + k + "  ");
                     }
                     board.Append("\n");
                 }
                 for (int j = 0; j < i_Cols; j++)
                 {
-                    board.Append("|    ");
+                    if (i_GameBoard[i, j] == 'X')
+                    {
+                        board.Append("|  X  ");
+                    }
+                    else if (i_GameBoard[i, j] == 'O')
+                    {
+                        board.Append("|  O  ");
+                    }
+                    else
+                    {
+                        board.Append("|     ");
+                    }
                 }
                 board.Append("|\n");
-                board.Append('=', 5 * i_Cols + 1);
+                board.Append('=', 6 * i_Cols + 1);
                 board.Append("\n");
             }
             System.Console.WriteLine(board);
