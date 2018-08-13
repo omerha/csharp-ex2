@@ -12,11 +12,15 @@ namespace C18_Ex02
         const int k_MinNumOfPlayer = 1;
         Player[] m_Players = new Player[2];
         PrintConsoleUtils consoleUtils = new PrintConsoleUtils();
+        //Do not need to set an authorization level for each variable?
         int m_BoardCols = 0;
         int m_BoardRows = 0;
         int m_NumOfHumanPlayers = 0;
+        int m_WhoWins = 0;
+        bool m_IsTheBoardFull = false;
         char[,] m_GameBoard = null;
         public static void Main()
+
         {
             GameManager omer = new GameManager();
             omer.StartGame();
@@ -35,7 +39,41 @@ namespace C18_Ex02
         }
         public void RunGame()
         {
-            //The game itself will be implemented here.
+            if (m_NumOfHumanPlayers==1)
+            {
+                GameOfOneHumanPlayerVsCompuer();
+            }
+            else
+            {
+                GameOfTwoHumanPlayers();
+            }
+        }
+        public void GameOfTwoHumanPlayers()
+        {
+            int moveOfPlayer=0;
+            while (m_IsTheBoardFull==false && m_WhoWins==0)
+            {
+                m_Players[0].GetMoveFromHuman(ref moveOfPlayer);
+                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                if (m_IsTheBoardFull == false && m_WhoWins == 0)
+                {
+                    m_Players[1].GetMoveFromHuman(ref moveOfPlayer);
+                    m_Players[1].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                }
+            }
+        }
+        public void GameOfOneHumanPlayerVsCompuer()
+        {
+            int moveOfPlayer = 0;
+            while (m_IsTheBoardFull == false && m_WhoWins == 0)
+            {
+                m_Players[0].GetMoveFromHuman(ref moveOfPlayer);
+                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                if (m_IsTheBoardFull == false && m_WhoWins == 0)
+                {
+                    m_Players[1].GetMoveFromComputer(ref m_GameBoard);
+                }
+            }
         }
         public void GetBoardSizes()
         {

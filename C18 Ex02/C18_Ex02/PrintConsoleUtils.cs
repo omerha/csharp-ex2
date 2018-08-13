@@ -78,6 +78,18 @@ namespace C18_Ex02
             }
             io_NumOfPlayers = System.Console.ReadLine();
         }
+        public void PrintMoveOfPlayersQuestion(ref int io_MoveOfPlayer, int i_Attemps)
+        {
+            if (i_Attemps == 0)
+            {
+                System.Console.WriteLine("Type the number of column");
+            }
+            else
+            {
+                System.Console.WriteLine("Wrong input, please try again.\nType the number of column");
+            }
+            io_NumOfPlayers = System.Console.ReadLine();
+        }
         public void PrintScores(Player[] i_Players)
         {
             System.Console.WriteLine("=== Scores Board ===");
