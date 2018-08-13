@@ -5,7 +5,8 @@ namespace C18_Ex02
 {
     class PrintConsoleUtils
     {
-
+        const char k_XSign = 'X';
+        const char k_OSign = 'O';
         public void PrintBoard(int i_Cols, int i_Rows,char[,] i_GameBoard)
         {
             StringBuilder board = new StringBuilder();
@@ -22,11 +23,11 @@ namespace C18_Ex02
                 }
                 for (int j = 0; j < i_Cols; j++)
                 {
-                    if (i_GameBoard[i, j] == 'X')
+                    if (i_GameBoard[i, j] == k_XSign)
                     {
                         board.Append("|  X  ");
                     }
-                    else if (i_GameBoard[i, j] == 'O')
+                    else if (i_GameBoard[i, j] == k_OSign)
                     {
                         board.Append("|  O  ");
                     }

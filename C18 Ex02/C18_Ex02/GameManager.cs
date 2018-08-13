@@ -6,6 +6,10 @@ namespace C18_Ex02
 {
     class GameManager
     {
+        const int k_MaxSizeOfTable = 8;
+        const int k_MinSizeOfTable = 4;
+        const int k_MaxNumOfPlayers = 2;
+        const int k_MinNumOfPlayer = 1;
         Player[] m_Players = new Player[2];
         PrintConsoleUtils consoleUtils = new PrintConsoleUtils();
         int m_BoardCols = 0;
@@ -27,35 +31,24 @@ namespace C18_Ex02
             m_GameBoard = new char[m_BoardRows, m_BoardCols];
             GetNumOfHumanPlayers();
             consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
-            consoleUtils.PrintScores(m_Players);
+            RunGame();
         }
-        public int Cols
+        public void RunGame()
         {
-            get { return m_BoardCols; }
-            set { m_BoardCols = value; }
-        }
-        public int Rows
-        {
-            get { return m_BoardRows; }
-            set { m_BoardRows = value; }
-        }
-        public int HumanPlayers
-        {
-            get { return m_NumOfHumanPlayers; }
-            set { m_NumOfHumanPlayers = value; }
+            //The game itself will be implemented here.
         }
         public void GetBoardSizes()
         {
             string userInput = null;
             int attempts = 0;
             consoleUtils.PrintBoardRowsQuestion(ref userInput, attempts);
-            while (int.TryParse(userInput, out m_BoardRows) == false || m_BoardRows > 8 || m_BoardRows < 4)
+            while (int.TryParse(userInput, out m_BoardRows) == false || m_BoardRows > k_MaxSizeOfTable || m_BoardRows < k_MinSizeOfTable)
             {
                 consoleUtils.PrintBoardRowsQuestion(ref userInput, ++attempts);
             }
             attempts = 0;
             consoleUtils.PrintBoardColsQuestion(ref userInput, attempts);
-            while (int.TryParse(userInput, out m_BoardCols) == false || m_BoardCols > 8 || m_BoardCols < 4)
+            while (int.TryParse(userInput, out m_BoardCols) == false || m_BoardCols > k_MaxSizeOfTable || m_BoardCols < k_MinSizeOfTable)
             {
                 consoleUtils.PrintBoardColsQuestion(ref userInput, ++attempts);
             }
@@ -65,7 +58,7 @@ namespace C18_Ex02
             string userInput = null;
             int attempts = 0;
             consoleUtils.PrintNumOfPlayersQuestion(ref userInput, attempts);
-            while (int.TryParse(userInput, out m_NumOfHumanPlayers) == false || m_NumOfHumanPlayers <= 0 || m_NumOfHumanPlayers > 2)
+            while (int.TryParse(userInput, out m_NumOfHumanPlayers) == false || m_NumOfHumanPlayers < k_MinNumOfPlayer || m_NumOfHumanPlayers > k_MaxNumOfPlayers)
             {
                 consoleUtils.PrintNumOfPlayersQuestion(ref userInput, ++attempts);
             }
