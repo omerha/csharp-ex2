@@ -33,7 +33,6 @@ namespace C18_Ex02
             GetBoardSizes();
             m_GameBoard = new char[m_BoardRows, m_BoardCols];
             GetNumOfHumanPlayers();
-            
             RunGame();
         }
 
@@ -42,6 +41,7 @@ namespace C18_Ex02
             System.Console.WriteLine(m_NumOfHumanPlayers);
             if (m_NumOfHumanPlayers==1)
             {
+                m_Players[0].Sign = 'X';
                 GameOfOneHumanPlayerVsCompuer();
             }
             else
@@ -59,32 +59,117 @@ namespace C18_Ex02
         public void GameOfTwoHumanPlayers()
         {
             int moveOfPlayer=0;
-            bool restarGame = false;
-
-            while (!restarGame)
+            bool restartGame = false;
+            System.Nullable<int> numberOfPlayerWhoWon = null ;
+            while (!restartGame)
             {
-                for (int numOfPlayer = 0; numOfPlayer<m_NumOfHumanPlayers && !restarGame ;numOfPlayer++)
+                for (int numOfPlayer = 0; numOfPlayer<m_NumOfHumanPlayers && !restartGame ;numOfPlayer++)
                 {
-                    m_Players[numOfPlayer].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows);
-                    GameBoardUpdate(moveOfPlayer, numOfPlayer);
-                    consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
-                    if (IsThereWinner(m_Players[numOfPlayer].Sign))
+                    m_Players[numOfPlayer].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows, ref m_ExitFromTheGame);
+
+                    if (m_ExitFromTheGame)
                     {
-                        m_Players[numOfPlayer].Points++;
-                        consoleUtils.PrintTheWineerAndPointsStatus(numOfPlayer, m_NumOfHumanPlayers, m_Players);
-                        GameOver(numOfPlayer);
-                        restarGame = true;
+                        numberOfPlayerWhoWon = System.Math.Abs(numOfPlayer - 1);
+                        m_ExitFromTheGame = false;
+                        restartGame = true;
                     }
+                    else
+                    {
+                        GameBoardUpdate(moveOfPlayer, m_Players[numOfPlayer].Sign);
+                        consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
+                        if (IsThereWinner(m_Players[numOfPlayer].Sign))
+                        {
+                            numberOfPlayerWhoWon = numOfPlayer;
+                            restartGame = true;
+                        }
+                        else if (IsFullBoard())
+                        {
+                            restartGame = true;
+                        }
+                    }
+                    if (restartGame)
+                    {
+                        if (numberOfPlayerWhoWon.HasValue)
+                        {
+                            m_Players[numberOfPlayerWhoWon.Value].Points++;
+                        }
+                        consoleUtils.PrintSatusGameMsg(numberOfPlayerWhoWon);
+                        consoleUtils.PrintPointsStatus(m_NumOfHumanPlayers, m_Players);
+                        GameOver();
+                    }
+
                 }
             }
         }
 
-        private void GameOver(int i_winner)
+        public void GameOfOneHumanPlayerVsCompuer()
+        {
+            int moveOfPlayer = 0;
+            bool restartGame = false;
+            System.Nullable<int> numberOfPlayerWhoWon = null;
+            while (!restartGame)
+            {
+                m_Players[0].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows, ref m_ExitFromTheGame);
+                if (m_ExitFromTheGame)
+                {
+                    numberOfPlayerWhoWon = 1;
+                    m_ExitFromTheGame = false;
+                    restartGame = true;
+                }
+                else
+                {
+                    GameBoardUpdate(moveOfPlayer, m_Players[0].Sign);
+                    consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
+                    if (IsThereWinner(m_Players[0].Sign))
+                    {
+                        numberOfPlayerWhoWon = 0;
+                        restartGame = true;
+                    }
+                    else if (IsFullBoard())
+                    {
+                        restartGame = true;
+                    }
+                }
+                if (restartGame)
+                {
+                    if (numberOfPlayerWhoWon.HasValue)
+                    {
+                        if (numberOfPlayerWhoWon.Value==0)
+                        {
+                            m_Players[0].Points++;
+                            consoleUtils.PrintSatusGameMsgHumanVsComputer(numberOfPlayerWhoWon);
+                            consoleUtils.PrintPointsStatus(m_NumOfHumanPlayers, m_Players);
+                        }
+                    }
+                    GameOver();
+                }
+
+                // GetMoveFromComputer
+                GameBoardUpdate(moveOfPlayer, 'C');
+                consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
+                if (IsThereWinner('C'))
+                {
+                    numberOfPlayerWhoWon = 1;
+                    restartGame = true;
+                }
+                else if (IsFullBoard())
+                {
+                    restartGame = true;
+                }
+                if (restartGame)
+                {
+                    consoleUtils.PrintSatusGameMsgHumanVsComputer(numberOfPlayerWhoWon);
+                    GameOver();
+                }
+
+            }
+        }
+
+        private void GameOver()
         {
             string userInput = null;
             int attempts = 0;
             consoleUtils.PrintContinueQuestion(ref userInput, attempts);
-            System.Console.WriteLine(userInput);
             while (userInput != "Y" && userInput != "N")
             {
                 consoleUtils.PrintContinueQuestion(ref userInput, ++attempts);
@@ -97,26 +182,6 @@ namespace C18_Ex02
             {
                 InitializationGameBoard();
             }
-        }
-
-        public void GameOfOneHumanPlayerVsCompuer()
-        {
-            /*
-            int moveOfPlayer = 0;
-            int numOfPlayer = 0;
-            while (m_IsTheBoardFull == false && m_WhoWins == 0)
-            {
-                numOfPlayer = 0;
-                m_Players[numOfPlayer].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows);
-                GameBoardUpdate(moveOfPlayer, numOfPlayer);
-                if (m_IsTheBoardFull == false && m_WhoWins == 0)
-                {
-                    numOfPlayer = 1;
-                    m_Players[numOfPlayer].GetMoveFromComputer(ref m_GameBoard);
-                    GameBoardUpdate(moveOfPlayer, numOfPlayer);
-                }
-            }
-            */
         }
         
         public void GetBoardSizes()
@@ -157,14 +222,15 @@ namespace C18_Ex02
                 consoleUtils.PrintNumOfPlayersQuestion(ref userInput, ++attempts);
             }
         }
-        public void GameBoardUpdate(int i_Move, int i_NumOfPlayer)
+
+        public void GameBoardUpdate(int i_Move, char i_Sign)
         {
             bool isMoveDone = false;
             for (int i = m_BoardRows; i > 0 && isMoveDone != true; i--)
             {
                 if (m_GameBoard[i - 1, i_Move - 1] == '\0')
                 {
-                    m_GameBoard[i - 1, i_Move - 1] = m_Players[i_NumOfPlayer].Sign;
+                    m_GameBoard[i - 1, i_Move - 1] = i_Sign;
                     isMoveDone = true;
                 }
             }
@@ -172,14 +238,14 @@ namespace C18_Ex02
 
         public bool IsFullBoard()
         {
-            bool isFull = false;
-            for (int i=0;i>m_BoardRows && !isFull;i++)
+            bool isFull = true;
+            for (int i=0;i<m_BoardRows && isFull;i++)
             {
-                for (int j=0;j<m_BoardCols && !isFull;j++)
+                for (int j=0;j<m_BoardCols && isFull;j++)
                 {
-                    if (m_GameBoard[i,j]!='\0')
+                    if (m_GameBoard[i,j]=='\0')
                     {
-                        isFull = true;
+                        isFull=false;
                     }
                 }
             }
@@ -194,6 +260,11 @@ namespace C18_Ex02
             }
 
             if (CheckColsForWinner(i_Sign))
+            {
+                return true;
+            }
+
+            if (CheckDiagonalForWinner(i_Sign))
             {
                 return true;
             }
@@ -244,6 +315,93 @@ namespace C18_Ex02
                     else
                     {
                         counterSingInCols = 0;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CheckDiagonalForWinner(char i_Sign)
+        {
+            int counterSingDiagonal = 0;
+            for (int k = 0; k < m_BoardCols - 3; k++)
+            {
+
+                for (int j = 0; (j + k) < m_BoardCols &&  j < m_BoardRows; j++)
+                {
+                    {
+                        if (m_GameBoard[j, j+k] == i_Sign)
+                        {
+                            counterSingDiagonal++;
+                            if (counterSingDiagonal == 4)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            counterSingDiagonal = 0;
+                        }
+                    }
+                }
+            }
+            counterSingDiagonal = 0;
+            for (int i=1;i<m_BoardRows-3;i++)
+            {
+                for (int j=0;j<m_BoardCols && (i+j)<m_BoardRows;j++)
+                {
+                    if (m_GameBoard[i + j, j] == i_Sign)
+                    {
+                        counterSingDiagonal++;
+                        if (counterSingDiagonal == 4)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        counterSingDiagonal = 0;
+                    }
+                }
+            }
+
+            counterSingDiagonal = 0;
+            int n = 7;
+            for (int k=0;k<m_BoardCols-3;k++)
+            {
+                for (int j = 0; (j+k) < m_BoardCols && (n-j) > 0; j++)
+                {
+                    if (m_GameBoard[n - j, j + k] == i_Sign)
+                    {
+                        counterSingDiagonal++;
+                        if (counterSingDiagonal == 4)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        counterSingDiagonal = 0;
+                    }
+                }
+            }
+
+            counterSingDiagonal = 0;
+            for (int i = 6; i > 3 ; i--)
+            {
+                for (int j = 0;j < m_BoardCols && (i-j)>0; j++)
+                {
+                    if (m_GameBoard[i - j,j ] == i_Sign)
+                    {
+                        counterSingDiagonal++;
+                        if (counterSingDiagonal == 4)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        counterSingDiagonal = 0;
                     }
                 }
             }

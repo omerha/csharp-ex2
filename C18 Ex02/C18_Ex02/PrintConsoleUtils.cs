@@ -112,10 +112,38 @@ namespace C18_Ex02
             }
             io_Answer = System.Console.ReadLine();
         }
-        public void PrintTheWineerAndPointsStatus(int i_Winner, int i_NumOfHumanPlayers, Player[] i_Players)
+        public void PrintSatusGameMsg(System.Nullable<int> i_Winner)
         {
-            string msgWinner = String.Format("The winner is player number {0} !!!", i_Winner+1);
-            System.Console.WriteLine(msgWinner);
+            if (i_Winner.HasValue)
+            {
+                string msgWinner = String.Format("The winner is player number {0} !!!", i_Winner.Value + 1);
+                System.Console.WriteLine(msgWinner);
+            }
+            else
+            {
+                System.Console.WriteLine("The game has ended in a tie");
+            }
+        }
+        public void PrintSatusGameMsgHumanVsComputer(System.Nullable<int> i_Winner)
+        {
+            if (i_Winner.HasValue)
+            {
+                if (i_Winner.Value==0)
+                {
+                    System.Console.WriteLine("The winner is the human player!!!");
+                }
+                else
+                {
+                    System.Console.WriteLine("The winner is the computer!!!");
+                }
+            }
+            else
+            {
+                System.Console.WriteLine("The game has ended in a tie");
+            }
+        }
+        public void PrintPointsStatus(int i_NumOfHumanPlayers, Player[] i_Players)
+        {
             System.Console.WriteLine("The points status:");
             for (int i=0;i<i_NumOfHumanPlayers;i++)
             {

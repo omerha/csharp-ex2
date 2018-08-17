@@ -15,16 +15,16 @@
             get { return m_NumOfPoints; }
             set { m_NumOfPoints = value; }
         }
-        public void GetMoveFromHuman(ref int o_MoveOfPlayer, int i_boardRows)
+        public void GetMoveFromHuman(ref int o_MoveOfPlayer, int i_boardRows, ref bool o_ExitFromTheGame)
         {
             string userInput = null;
             int attempts = 0;
             playerConsoleUtils.PrintMoveOfPlayersQuestion(ref userInput, attempts);
-            while (int.TryParse(userInput, out o_MoveOfPlayer) == false || o_MoveOfPlayer > i_boardRows || o_MoveOfPlayer<1)
+            while ((int.TryParse(userInput, out o_MoveOfPlayer) == false || o_MoveOfPlayer > i_boardRows || o_MoveOfPlayer<1) && (!o_ExitFromTheGame) )
             {
                 if (userInput=="Q")
                 {
-                    //
+                    o_ExitFromTheGame = true;
                 }
                 else
                 {
@@ -33,7 +33,7 @@
             }
 
         }
-        public void GetMoveFromComputer(ref char [,] i_GameBoard) 
+        static public void GetMoveFromComputer(ref int o_MoveOfPlayer, int i_boardRows) 
         {
             int avaliableRow = 0;
             int avaliableCol = 0;
