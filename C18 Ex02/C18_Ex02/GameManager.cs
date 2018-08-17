@@ -31,11 +31,23 @@ namespace C18_Ex02
             {
                 m_Players[i] = new Player();
             }
+            
             GetBoardSizes();
             m_GameBoard = new char[m_BoardRows, m_BoardCols];
+            IntilizationGameBoard();
             GetNumOfHumanPlayers();
             consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
             RunGame();
+        }
+        public void IntilizationGameBoard()
+        {
+            for (int i = 0; i < m_BoardRows; i++)
+            {
+                for (int j = 0; j < m_BoardCols; j++)
+                {
+                    m_GameBoard[i, j] = 'Y';
+                }
+            }
         }
         public void RunGame()
         {
@@ -53,12 +65,14 @@ namespace C18_Ex02
             int moveOfPlayer=0;
             while (m_IsTheBoardFull==false && m_WhoWins==0)
             {
-                m_Players[0].GetMoveFromHuman(ref moveOfPlayer);
-                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                m_Players[0].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows);
+                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard, m_BoardRows, m_BoardCols);
+                consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
                 if (m_IsTheBoardFull == false && m_WhoWins == 0)
                 {
-                    m_Players[1].GetMoveFromHuman(ref moveOfPlayer);
-                    m_Players[1].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                    m_Players[1].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows);
+                    m_Players[1].GameBoardUpdate(moveOfPlayer, ref m_GameBoard, m_BoardRows, m_BoardCols);
+                    consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
                 }
             }
         }
@@ -67,8 +81,8 @@ namespace C18_Ex02
             int moveOfPlayer = 0;
             while (m_IsTheBoardFull == false && m_WhoWins == 0)
             {
-                m_Players[0].GetMoveFromHuman(ref moveOfPlayer);
-                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard);
+                m_Players[0].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows);
+                m_Players[0].GameBoardUpdate(moveOfPlayer, ref m_GameBoard, m_BoardRows, m_BoardCols);
                 if (m_IsTheBoardFull == false && m_WhoWins == 0)
                 {
                     m_Players[1].GetMoveFromComputer(ref m_GameBoard);

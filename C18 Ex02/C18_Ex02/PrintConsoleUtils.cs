@@ -78,7 +78,7 @@ namespace C18_Ex02
             }
             io_NumOfPlayers = System.Console.ReadLine();
         }
-        public void PrintMoveOfPlayersQuestion(ref int io_MoveOfPlayer, int i_Attemps)
+        public void PrintMoveOfPlayersQuestion(ref string io_MoveOfPlayer, int i_Attemps)
         {
             if (i_Attemps == 0)
             {
@@ -88,7 +88,7 @@ namespace C18_Ex02
             {
                 System.Console.WriteLine("Wrong input, please try again.\nType the number of column");
             }
-            io_NumOfPlayers = System.Console.ReadLine();
+            io_MoveOfPlayer = System.Console.ReadLine();
         }
         public void PrintScores(Player[] i_Players)
         {
