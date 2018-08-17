@@ -100,5 +100,28 @@ namespace C18_Ex02
                 System.Console.WriteLine(outputPlayerScore);
             }
         }
+        public void PrintContinueQuestion(ref string io_Answer, int i_Attempts)
+        {
+            if (i_Attempts == 0)
+            {
+                System.Console.WriteLine("Do you want to continue playing ?(Y / N)");
+            }
+            else
+            {
+                System.Console.WriteLine("Wrong input, please try again.\nDo you want to continue playing ?(Y / N)");
+            }
+            io_Answer = System.Console.ReadLine();
+        }
+        public void PrintTheWineerAndPointsStatus(int i_Winner, int i_NumOfHumanPlayers, Player[] i_Players)
+        {
+            string msgWinner = String.Format("The winner is player number {0} !!!", i_Winner+1);
+            System.Console.WriteLine(msgWinner);
+            System.Console.WriteLine("The points status:");
+            for (int i=0;i<i_NumOfHumanPlayers;i++)
+            {
+                string msgPointStatus = String.Format("The points of player number {0} are: {1} ", i+1, i_Players[i].Points);
+                System.Console.WriteLine(msgPointStatus);
+            }
+        }
     }
 }

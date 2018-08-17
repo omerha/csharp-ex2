@@ -4,6 +4,12 @@
     {
         PrintConsoleUtils playerConsoleUtils = new PrintConsoleUtils();
         int m_NumOfPoints = 0;
+        char m_Sign;
+        public char Sign
+        {
+            get { return m_Sign; }
+            set { m_Sign = value; }
+        }
         public int Points
         {
             get { return m_NumOfPoints; }
@@ -18,7 +24,7 @@
             {
                 if (userInput=="Q")
                 {
-                    //the other player is win
+                    //
                 }
                 else
                 {
@@ -29,20 +35,19 @@
         }
         public void GetMoveFromComputer(ref char [,] i_GameBoard) 
         {
-            //Use random func or think about "smart" moves he said he will give 10 points extra for AI - thats why 
-            // I pass the matrix board as well.
+            int avaliableRow = 0;
+            int avaliableCol = 0;
         }
-        public void GameBoardUpdate(int i_Move, ref char[,] io_GameBoard, int i_BoardRows, int i_BoardCols)
+
+        public bool IsThereRowAvaliable(ref int o_row, char[,] i_GameBoard)
         {
-           bool isMoveDone = false;
-           for (int i= i_BoardRows; i >0 && isMoveDone!=true;i--)
+            for (int i=0;i<i_GameBoard.Length;i++)
             {
-                if (io_GameBoard[i-1,i_Move-1]!=' ')
-                {
-                    io_GameBoard[i-1, i_Move-1] = 'X';
-                    isMoveDone = true;
-                }
+
             }
+            return false;
         }
+
+
     }
 }
