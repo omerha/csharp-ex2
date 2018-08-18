@@ -42,9 +42,9 @@ namespace C18_Ex02
 
         public void RunGame()
         {
-            consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
             while (!m_ExitFromTheGame)
             {
+                consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
                 if (m_NumOfHumanPlayers == 1)
                 {
                     GameOfOneHumanPlayerVsCompuer();
@@ -323,14 +323,20 @@ namespace C18_Ex02
 
         public bool CheckDiagonalForWinner(char i_Sign)
         {
+            return CheckGoingDownDiagonalForWinner(i_Sign) || CheckGoingUpDiagonalForWinner(i_Sign);
+        }
+
+        public bool CheckGoingDownDiagonalForWinner(char i_Sign)
+        {
             int counterSingDiagonal = 0;
             for (int k = 0; k < m_BoardCols - 3; k++)
             {
 
-                for (int j = 0; (j + k) < m_BoardCols &&  j < m_BoardRows; j++)
+                for (int j = 0; (j + k) < m_BoardCols && j < m_BoardRows; j++)
                 {
                     {
-                        if (m_GameBoard[j, j+k] == i_Sign)
+                        //System.Console.WriteLine("(" + (j) + "," + (j+k) + ")");
+                        if (m_GameBoard[j, j + k] == i_Sign)
                         {
                             counterSingDiagonal++;
                             if (counterSingDiagonal == 4)
@@ -344,12 +350,15 @@ namespace C18_Ex02
                         }
                     }
                 }
+                //System.Console.WriteLine("GoingDown1----------------------------------");
+
             }
             counterSingDiagonal = 0;
-            for (int i=1;i<m_BoardRows-3;i++)
+            for (int i = 1; i < m_BoardRows - 3; i++)
             {
-                for (int j=0;j<m_BoardCols && (i+j)<m_BoardRows;j++)
+                for (int j = 0; j < m_BoardCols && (i + j) < m_BoardRows; j++)
                 {
+                    //System.Console.WriteLine("(" + (i + j) + "," + (j) + ")");
                     if (m_GameBoard[i + j, j] == i_Sign)
                     {
                         counterSingDiagonal++;
@@ -363,15 +372,21 @@ namespace C18_Ex02
                         counterSingDiagonal = 0;
                     }
                 }
+            //System.Console.WriteLine("GoingDown2----------------------------------");
             }
+            
+            return false;
+        }
 
-            counterSingDiagonal = 0;
-            int n = 7;
-            for (int k=0;k<m_BoardCols-3;k++)
+        public bool CheckGoingUpDiagonalForWinner(char i_Sign)
+        {
+            int counterSingDiagonal = 0;
+            for (int k = 0; k < m_BoardCols - 3; k++)
             {
-                for (int j = 0; (j+k) < m_BoardCols && (n-j) > 0; j++)
+                for (int j = 0; ((j + k) < m_BoardCols) && (m_BoardRows - j-1) >= 0; j++)
                 {
-                    if (m_GameBoard[n - j, j + k] == i_Sign)
+                    //System.Console.WriteLine("(" + (m_BoardRows - j-1) + "," + (j + k) + ")");
+                    if (m_GameBoard[m_BoardRows -1- j, j + k] == i_Sign)
                     {
                         counterSingDiagonal++;
                         if (counterSingDiagonal == 4)
@@ -384,14 +399,16 @@ namespace C18_Ex02
                         counterSingDiagonal = 0;
                     }
                 }
+                //System.Console.WriteLine("GoingUp1----------------------------------");
             }
 
             counterSingDiagonal = 0;
-            for (int i = 6; i > 3 ; i--)
+            for (int i = m_BoardRows - 2; i > 3; i--)
             {
-                for (int j = 0;j < m_BoardCols && (i-j)>0; j++)
+                for (int j = 0; (j < m_BoardCols) && ((i - j) >= 0); j++)
                 {
-                    if (m_GameBoard[i - j,j ] == i_Sign)
+                    //System.Console.WriteLine("(" + (i-j) + "," + (j) + ")");
+                    if (m_GameBoard[i - j, j] == i_Sign)
                     {
                         counterSingDiagonal++;
                         if (counterSingDiagonal == 4)
@@ -404,6 +421,7 @@ namespace C18_Ex02
                         counterSingDiagonal = 0;
                     }
                 }
+                //System.Console.WriteLine("GoingUp2----------------------------------");
             }
             return false;
         }
