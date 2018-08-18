@@ -10,6 +10,8 @@ namespace C18_Ex02
         const int k_MinSizeOfTable = 4;
         const int k_MaxNumOfPlayers = 2;
         const int k_MinNumOfPlayer = 1;
+        const char k_XSign = 'X';
+        const char k_OSign = 'O';
         Player[] m_Players = new Player[2];
         PrintConsoleUtils consoleUtils = new PrintConsoleUtils();
         int m_BoardCols = 0;
@@ -33,24 +35,22 @@ namespace C18_Ex02
             GetBoardSizes();
             m_GameBoard = new char[m_BoardRows, m_BoardCols];
             GetNumOfHumanPlayers();
+            m_Players[0].Sign = k_XSign;
+            m_Players[1].Sign = k_OSign;
             RunGame();
         }
 
         public void RunGame()
         {
-            System.Console.WriteLine(m_NumOfHumanPlayers);
-            if (m_NumOfHumanPlayers==1)
+            consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
+            while (!m_ExitFromTheGame)
             {
-                m_Players[0].Sign = 'X';
-                GameOfOneHumanPlayerVsCompuer();
-            }
-            else
-            {
-                m_Players[0].Sign = 'X';
-                m_Players[1].Sign = 'O';
-                while (!m_ExitFromTheGame)
+                if (m_NumOfHumanPlayers == 1)
                 {
-                    consoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
+                    GameOfOneHumanPlayerVsCompuer();
+                }
+                else
+                {
                     GameOfTwoHumanPlayers();
                 }
             }
@@ -63,7 +63,7 @@ namespace C18_Ex02
             System.Nullable<int> numberOfPlayerWhoWon = null ;
             while (!restartGame)
             {
-                for (int numOfPlayer = 0; numOfPlayer<m_NumOfHumanPlayers && !restartGame ;numOfPlayer++)
+                for (int numOfPlayer = 0; numOfPlayer < m_NumOfHumanPlayers && !restartGame; numOfPlayer++) 
                 {
                     m_Players[numOfPlayer].GetMoveFromHuman(ref moveOfPlayer, m_BoardRows, ref m_ExitFromTheGame);
 

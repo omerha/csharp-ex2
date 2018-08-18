@@ -1,4 +1,7 @@
-﻿namespace C18_Ex02
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+namespace C18_Ex02
 {
     class Player
     {
@@ -37,6 +40,10 @@
         {
             int avaliableRow = 0;
             int avaliableCol = 0;
+            Random rander = new Random();
+            string computerMove = null;
+            int randomComputerMove = rander.Next(0, i_boardRows);
+            int.TryParse(computerMove, out randomComputerMove);
         }
 
         public bool IsThereRowAvaliable(ref int o_row, char[,] i_GameBoard)
