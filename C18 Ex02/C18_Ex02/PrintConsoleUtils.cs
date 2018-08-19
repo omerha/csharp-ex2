@@ -142,10 +142,14 @@ namespace C18_Ex02
                 System.Console.WriteLine("The game has ended in a tie");
             }
         }
-        public void PrintPointsStatus(int i_NumOfHumanPlayers, Player[] i_Players)
+        public void PrintColIsFull()
+        {
+            System.Console.WriteLine("The column is full, please try again");
+        }
+        public void PrintPointsStatus(Player[] i_Players)
         {
             System.Console.WriteLine("The points status:");
-            for (int i=0;i<i_NumOfHumanPlayers;i++)
+            for (int i=0;i<i_Players.Length;i++)
             {
                 string msgPointStatus = String.Format("The points of player number {0} are: {1} ", i+1, i_Players[i].Points);
                 System.Console.WriteLine(msgPointStatus);

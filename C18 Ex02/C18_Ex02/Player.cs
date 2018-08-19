@@ -18,12 +18,13 @@ namespace C18_Ex02
             get { return m_NumOfPoints; }
             set { m_NumOfPoints = value; }
         }
-        public void GetMoveFromHuman(ref int o_MoveOfPlayer, int i_boardRows, ref bool o_ExitFromTheGame)
+        public void GetMoveFromHuman(ref int o_MoveOfPlayer, int i_BoardCols, ref bool o_ExitFromTheGame)
         {
             string userInput = null;
             int attempts = 0;
             playerConsoleUtils.PrintMoveOfPlayersQuestion(ref userInput, attempts);
-            while ((int.TryParse(userInput, out o_MoveOfPlayer) == false || o_MoveOfPlayer > i_boardRows || o_MoveOfPlayer<1) && (!o_ExitFromTheGame) )
+            userInput = userInput.ToUpper();
+            while ((int.TryParse(userInput, out o_MoveOfPlayer) == false || o_MoveOfPlayer > i_BoardCols || o_MoveOfPlayer<1) && (!o_ExitFromTheGame) )
             {
                 if (userInput=="Q")
                 {
@@ -36,14 +37,10 @@ namespace C18_Ex02
             }
 
         }
-        static public void GetMoveFromComputer(ref int o_MoveOfPlayer, int i_boardRows) 
+        public void GetMoveFromComputer(ref int o_MoveOfPlayer, int i_BoardCols) 
         {
-            int avaliableRow = 0;
-            int avaliableCol = 0;
             Random rander = new Random();
-            string computerMove = null;
-            int randomComputerMove = rander.Next(0, i_boardRows);
-            int.TryParse(computerMove, out randomComputerMove);
+            o_MoveOfPlayer = rander.Next(1, i_BoardCols);
         }
 
         public bool IsThereRowAvaliable(ref int o_row, char[,] i_GameBoard)
