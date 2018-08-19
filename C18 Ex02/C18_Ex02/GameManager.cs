@@ -298,7 +298,7 @@ namespace C18_Ex02
             return false;
         }
 
-        public bool CheckRowsForWinner(char i_Sign)
+        private bool CheckRowsForWinner(char i_Sign)
         {
             int counterSingInRows = 0;
             for (int i=0;i<m_BoardRows;i++)
@@ -323,7 +323,7 @@ namespace C18_Ex02
             return false;
         }
 
-        public bool CheckColsForWinner(char i_Sign)
+        private bool CheckColsForWinner(char i_Sign)
         {
             int counterSingInCols = 0;
             for (int j = 0; j < m_BoardCols; j++)
@@ -453,7 +453,7 @@ namespace C18_Ex02
         //    }
         //    return false;
         //}
-        public bool CheckDiagonalForWinner(char i_Sign)
+        private bool CheckDiagonalForWinner(char i_Sign)
         {
             StringBuilder upString = new StringBuilder();
             StringBuilder downString = new StringBuilder();
