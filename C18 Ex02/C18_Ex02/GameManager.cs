@@ -63,13 +63,13 @@ namespace C18_Ex02
             int moveOfPlayer=0;
             bool restartGame = false;
             System.Nullable<int> numberOfPlayerWhoWon = null ;
-            while (!restartGame)
+            while (restartGame == false)
             {
-                for (int numOfPlayer = 0; numOfPlayer < m_NumOfHumanPlayers && !restartGame; numOfPlayer++) 
+                for (int numOfPlayer = 0; numOfPlayer < m_NumOfHumanPlayers && restartGame == false; numOfPlayer++) 
                 {
-                    m_Players[numOfPlayer].GetMoveFromHuman(ref moveOfPlayer, m_BoardCols, ref m_ExitFromTheGame);
+                    GetHumanMoveAndUpdateBoard(numOfPlayer);
 
-                    if (m_ExitFromTheGame)
+                    if (m_ExitFromTheGame == true)
                     {
                         numberOfPlayerWhoWon = System.Math.Abs(numOfPlayer - 1);
                         m_ExitFromTheGame = false;
@@ -77,8 +77,6 @@ namespace C18_Ex02
                     }
                     else
                     {
-                        GameBoardUpdate(moveOfPlayer, m_Players[numOfPlayer].Sign);
-                        m_ConsoleUtils.PrintBoard(m_BoardCols, m_BoardRows, m_GameBoard);
                         if (IsThereWinner(m_Players[numOfPlayer].Sign))
                         {
                             numberOfPlayerWhoWon = numOfPlayer;
@@ -171,11 +169,12 @@ namespace C18_Ex02
                             numberOfPlayerWhoWon = i;
                             restartGame = true;
                         }
+                        else if (IsFullBoard())
+                        {
+                            restartGame = true;
+                        }
                     }
-                    if (IsFullBoard())
-                    {
-                        restartGame = true;
-                    }
+
                     if (restartGame == true)
                     {
                         m_ExitFromTheGame = false;
