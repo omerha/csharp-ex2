@@ -369,9 +369,11 @@ namespace C18_Ex02
                     rowUpIndex = m_BoardRows - 1 - i;
                     rowDownIndex = i;
                     colIndex = j;
+                    counterDownDiagonal = 0;
+                    counterUpDiagonal = 0;
                     while (colIndex < m_BoardCols && rowUpIndex >= 0 && rowDownIndex < m_BoardRows)
                     {
-                        if (m_GameBoard[rowUpIndex, colIndex] == i_Sign && m_GameBoard[rowDownIndex, colIndex] == i_Sign)
+                        if (m_GameBoard[rowUpIndex, colIndex] == i_Sign && m_GameBoard[rowDownIndex, colIndex] == i_Sign) 
                         {
                             counterDownDiagonal++;
                             counterUpDiagonal++; 
